@@ -161,7 +161,7 @@ class MyHomePage extends StatelessWidget {
                   ),
                   itemBuilder: (context, index) {
                     final product = _products[index];
-                    return Placeholder(); //Todo: Add product card
+                    return ProductCard(product: product);
                   },
                 ),
               ),
@@ -216,20 +216,74 @@ class Product {
 }
 
 final List<Product> _products = [
-  Product(name: 'Leather Bag', image: 'assets/products/bag.jpg', price: 59.99),
+  Product(name: 'Leather Bag', image: 'assets/products/leather-bag.jpg', price: 59.99),
   Product(
     name: 'Sport Shoes',
-    image: 'assets/products/shoes.jpg',
+    image: 'assets/products/sport-shoes.jpg',
     price: 79.99,
   ),
   Product(
     name: 'Wrist Watch',
-    image: 'assets/products/watch.jpg',
+    image: 'assets/products/wrist-watch.jpg',
     price: 129.99,
   ),
   Product(
     name: 'Summer Dress',
-    image: 'assets/products/dress.jpg',
+    image: 'assets/products/summer-dress.jpg',
     price: 49.99,
   ),
 ];
+
+class ProductCard extends StatelessWidget {
+  final Product product;
+
+  const ProductCard({super.key, required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            child: Image.asset(
+              product.image,
+              height: 180,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product.name,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '\$${product.price.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    color: Colors.green[700],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
