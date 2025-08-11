@@ -1,0 +1,150 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../widgets/category_chip.dart';
+import '../widgets/product_card.dart';
+import '../data/dummy_products.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key, required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.menu, color: Colors.black87, size: 26),
+          onPressed: () {
+            //TODO: Open drawer
+          },
+        ),
+        title: Text(
+          'Basecom',
+          style: GoogleFonts.playfair(
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: ImageIcon(
+              AssetImage('assets/icons/shopping-bag.png'),
+              color: Colors.black87,
+              size: 26,
+            ),
+            onPressed: () {},
+          ),
+
+          // IconButton(
+          //   icon: ImageIcon(AssetImage('assets/icons/shopping-bag.png')),
+          //   onPressed: () {
+          //     //TODO: Go to cart
+          //   },
+          // ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.search, color: Colors.grey, size: 20),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: "Search Products",
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12),
+
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(Icons.filter_list, color: Colors.black87),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+
+            SizedBox(
+              height: 48,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  CategoryChip(label: 'All', isSelected: true),
+                  CategoryChip(label: 'Dress'),
+                  CategoryChip(label: 'Watch'),
+                  CategoryChip(label: 'Shoes'),
+                  CategoryChip(label: 'New'),
+                  CategoryChip(label: 'Bags'),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
+
+            Expanded(
+              child: GridView.builder(
+                itemCount: products.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.7,
+                ),
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(product: product);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
